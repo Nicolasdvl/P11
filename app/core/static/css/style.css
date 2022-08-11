@@ -1,0 +1,103 @@
+/* Nav */
+
+#logo_img {
+    width: 2em;
+}
+
+#mainNav {
+    background-color: #f4623a;
+}
+
+/* Index */
+
+#presentation_img {
+    width: auto;
+    max-height: 250px;
+}
+
+#search_inputautocomplete-list {
+    max-height: 25vh;
+    overflow-y: scroll;
+    background: rgba(200, 200, 200, 0.2);
+
+
+}
+
+.icon {
+    max-width: 2em;
+}
+
+/* Form */
+
+.login-form,
+.signin-form,
+.redirect-substitutes,
+.redirect-signin {
+    display: inline-block;
+    width: 100%;
+    margin: 10px;
+}
+
+.divider {
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+
+/* Products */
+
+.card {
+    height: 40vh;
+}
+
+.card-header {
+    width: 100%;
+    height: 75%;
+}
+
+.card-body {
+    height: 20%;
+    width: 100%;
+    background-color: rgba(200, 200, 200, 0.5);
+}
+
+.product_img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.substituts_img {
+    max-width: 5em;
+    max-height: 5em;
+
+}
+
+.substituts_name {
+    position: absolute;
+    margin-top: 1em;
+    margin-left: 5em;
+}
+
+/* Assure empty section height to push footer */
+
+section#login,
+section#signup,
+section#user_account,
+section#details,
+section#saves {
+    height: 100%;
+}
+
+
+
+/* Footer */
+
+footer {
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+    background-color: #f4623a;
+}
+
+a.footer {
+    color: #345a61;
+}
