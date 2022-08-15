@@ -23,6 +23,9 @@ class SetUpMocks:
 
 
 class TestRequests(TestCase):
+    mocks = SetUpMocks()
+
+    @patch("requests.get", mocks.fake_get)
     def setUp(self):
         self.expected_formated_data = [
             {
@@ -56,8 +59,9 @@ class TestRequests(TestCase):
                 }
             },
         ]
-
-    mocks = SetUpMocks()
+        self.parser = Parser()
+        self.data = requests.get("off_url&params").json()
+        self.products = self.data["products"]
 
     @patch("requests.get", mocks.fake_get)
     def test_mock_request(self):
@@ -72,21 +76,37 @@ class TestRequests(TestCase):
         self.assertIn("products", data)
         self.assertEqual(len(data["products"]), 3)
 
-    @patch("requests.get", mocks.fake_get)
     def test_is_it_valid(self):
-        data = requests.get("off_url&params").json()
-        parser = Parser()
-        # First and second products are valid
-        self.assertTrue(parser.is_it_valid(data["products"][0]))
-        self.assertTrue(parser.is_it_valid(data["products"][1]))
-        # Third product is invalid because it doesn't have image.
-        self.assertFalse(parser.is_it_valid(data["products"][2]))
+        """
+        Test if Parser.is_it_valid() work.
 
-    @patch("requests.get", mocks.fake_get)
+        The function should valid first and second product
+        and invalid the third product which doesn't have image.
+        """
+
+        # Arrange
+        first_product = self.products[0]
+        second_product = self.products[1]
+        third_product = self.products[2]
+        # Act
+        first_result = self.parser.is_it_valid(first_product)
+        second_result = self.parser.is_it_valid(second_product)
+        third_result = self.parser.is_it_valid(third_product)
+        # Assert
+        self.assertTrue(first_result)
+        self.assertTrue(second_result)
+        self.assertFalse(third_result)
+
     def test_formate(self):
-        data = requests.get("off_url&params").json()
-        parser = Parser()
-        products = data["products"]
-        for product in products:
-            formated_data = parser.formate(product)
-            self.assertIn(formated_data, self.expected_formated_data)
+        """
+        Test if Parser.formate() work.
+
+        The function should return formated data contain in expected_formated_data.
+        """
+        # Arrange
+        for product in self.products:
+            if self.parser.is_it_valid(product):
+                # Act
+                formated_data = self.parser.formate(product)
+                # Assert
+                self.assertIn(formated_data, self.expected_formated_data)
