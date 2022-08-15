@@ -4,6 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from django.test import override_settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from dotenv import load_dotenv
@@ -15,8 +16,8 @@ import unittest
 @unittest.skipIf(
     bool(os.environ.get("BROWSER_LOCATION")) is False
     or bool(os.environ.get("DRIVER_PATH")) is False,
-    "skip if BROSWER or DRIVER not in env"
-    )
+    "skip if BROSWER or DRIVER not in env",
+)
 @override_settings(
     STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage"
 )
@@ -41,6 +42,15 @@ class TestSelenium(StaticLiveServerTestCase):
             executable_path=os.getenv("DRIVER_PATH"),
             options=options,
         )
+        """
+        capabilities = DesiredCapabilities.CHROME.copy()
+        capabilities["acceptInsecureCerts"] = True
+        capabilities["networkConnectionEnabled"] = True
+        cls.driver = webdriver.Remote(
+            command_executor="http://127.0.0.1:4444",
+            desired_capabilities=capabilities,
+        )
+        """
 
     @classmethod
     def tearDownClass(cls):
