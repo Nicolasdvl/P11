@@ -8,6 +8,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("product/", views.similar, name="similar_products"),
     path("product/<int:id>/", views.substitutes, name="product_substitutes"),
     path("product/<int:id>/details/", views.details, name="product_details"),
     path(
