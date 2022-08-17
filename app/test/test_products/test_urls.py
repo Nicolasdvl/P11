@@ -1,3 +1,4 @@
+from urllib import response
 from django.test import Client, TestCase, override_settings
 from products.models import Product
 from authentification.models import User
@@ -22,6 +23,7 @@ class TestProductsUrls(TestCase):
         cls.user = User.objects.get(id=1)
         cls.saves = cls.user.get_saves()
         cls.subs = cls.product.get_subs_list()
+        cls.similar = Product.objects.filter(name__icontains="coca")
 
     def setUp(self):
         """Initiate django client test."""
@@ -39,6 +41,32 @@ class TestProductsUrls(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["product"], self.product)
         self.assertEqual(response.context["substitutes"], self.subs)
+
+    def test_similar(self):
+        """
+        Test 'product/'.
+
+        1/ POST status should be 200.
+        2/ Context should have similar_products with objects.
+        3/ POST status should be 200.
+        4/ Context shouldn't have object in similar_products.
+        """
+        response_with_similar_products = self.client.post(
+            "/product/", data={"search_input": "coca"}
+        )
+        response_without_similar_products = self.client.post(
+            "/product/", data={"search_input": "inexistant"}
+        )
+        self.assertEqual(response_with_similar_products.status_code, 200)
+        self.assertQuerysetEqual(
+            response_with_similar_products.context["similar_products"],
+            self.similar,
+            ordered=False,
+        )
+        self.assertEqual(response_without_similar_products.status_code, 200)
+        self.assertQuerysetEqual(
+            response_without_similar_products.context["similar_products"], []
+        )
 
     def test_details(self):
         """
