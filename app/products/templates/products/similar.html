@@ -24,7 +24,7 @@
         <ul class="list-group">
             {% for product in similar_products %}
             <li class="list-group-item"><img class="similar_img" src={{product.image}}>
-                <div>{{product.name}}</div>
+                <a href="{% url 'product_substitutes' product.id %}">{{product.name}}</a>
             </li>
             {% endfor %}
         </ul>
