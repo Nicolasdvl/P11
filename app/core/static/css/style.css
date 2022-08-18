@@ -66,10 +66,10 @@
     object-fit: contain;
 }
 
-.substituts_img {
+.substituts_img,
+.similar_img {
     max-width: 5em;
     max-height: 5em;
-
 }
 
 .substituts_name {

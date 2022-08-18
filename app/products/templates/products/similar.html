@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Pur Beurre</title>
+    <meta name="description" content="Trouvez un produit de substitution pour ceux que vous consommez tous les jours.">
+    <meta name="author" content="Daval Nicolas">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/boot_creative_theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+    {% include 'core/nav.html' %}
+
+    <section class="page-section" id="similar">
+        {% if similar_products %}
+        <div class="card-header"> Produit similaire à {{product_search}} </div>
+        <ul class="list-group">
+            {% for product in similar_products %}
+            <li class="list-group-item"><img class="similar_img" src={{product.image}}>
+                <a href="{% url 'product_substitutes' product.id %}">{{product.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Nous n'avons pas trouvé de produit correspondant à {{product_search}}</p>
+        {% endif %}
+    </section>
+</body>
+{% include 'core/footer.html' %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+<script src="{% static 'js/boot_script.js' %}"></script>
+<script src="{% static 'js/autocomplete.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>

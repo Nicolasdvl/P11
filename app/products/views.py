@@ -7,6 +7,7 @@ or a 404 error, or an XML document, or an image . . .
 """
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from authentification.models import User
 from products.models import Product
 from search.search import SearchForm
@@ -15,7 +16,7 @@ from search.search import SearchForm
 
 
 def substitutes(request, id):
-    """Return a html page with a list of products and a form."""
+    """Return a html page with a list of substitutes for a selected product."""
     product = Product.objects.get(id=id)
     search_form = SearchForm()
     context = {
@@ -39,6 +40,22 @@ def details(request, id):
     search_form = SearchForm()
     context = {"product": product, "SearchForm": search_form}
     return render(request, "products/details.html", context)
+
+
+def similar(request):
+    """Return a 'product not found' page or products similar to user input."""
+    search_input = request.POST.get("search_input")
+    try:
+        products = Product.objects.filter(name__icontains=search_input)
+        if len(products) > 10:
+            products = products[:10]
+        context = {
+            "similar_products": products,
+            "product_search": search_input,
+        }
+    except ObjectDoesNotExist:
+        context = {"product_search": search_input}
+    return render(request, "products/similar.html", context)
 
 
 @login_required

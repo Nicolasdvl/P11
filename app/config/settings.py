@@ -32,7 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG"))
+
+DEBUG = os.environ.get("DEBUG") == "True"
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -100,9 +101,9 @@ DATABASES = {
 }
 
 # Database for tests
-if 'test' in sys.argv:
-    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-    DATABASES['default']['NAME'] = ':memory:'
+if "test" in sys.argv:
+    DATABASES["default"]["ENGINE"] = "django.db.backends.sqlite3"
+    DATABASES["default"]["NAME"] = ":memory:"
 
 AUTHENTICATION_BACKENDS = [
     "authentification.authenticate.EmailAuth",
