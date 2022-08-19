@@ -16,4 +16,5 @@ urlpatterns = [
         views.my_substitutes,
         name="my_substitutes",
     ),
+    path("claim/", views.claim, name="claim"),
 ]

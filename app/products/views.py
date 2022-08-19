@@ -5,12 +5,13 @@ Python functions that takes a Web request and returns a Web response.
 This response can be the HTML contents of a Web page, or a redirect,
 or a 404 error, or an XML document, or an image . . .
 """
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from authentification.models import User
 from products.models import Product
 from search.search import SearchForm
+from products.forms.claims import ClaimForm
 
 # Create your views here.
 
@@ -65,3 +66,16 @@ def my_substitutes(request):
     search_form = SearchForm()
     context = {"products": user.get_saves(), "SearchForm": search_form}
     return render(request, "products/saves.html", context)
+
+
+def claim(request):
+    if request.method == "POST":
+        claim_form = ClaimForm(request.POST)
+        if claim_form.is_valid():
+            claim_form.save()
+            return redirect("index")
+    else:
+        claim_form = ClaimForm()
+    search_form = SearchForm()
+    context = {"ClaimForm": claim_form, "SearchForm": search_form}
+    return render(request, "products/claim.html", context)
