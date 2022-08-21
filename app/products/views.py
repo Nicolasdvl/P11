@@ -68,11 +68,14 @@ def my_substitutes(request):
     return render(request, "products/saves.html", context)
 
 
+@login_required
 def claim(request):
     if request.method == "POST":
         claim_form = ClaimForm(request.POST)
         if claim_form.is_valid():
-            claim_form.save()
+            user = request.user
+            new_claim = claim_form.save()
+            new_claim.user.add(user)
             return redirect("index")
     else:
         claim_form = ClaimForm()
