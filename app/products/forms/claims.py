@@ -17,6 +17,9 @@ class ClaimForm(forms.ModelForm):
         label="Référence du produit",
         widget=forms.TextInput(attrs={"id": "code", "class": "claim-form"}),
         required=False,
+        error_messages={
+            "invalid": "La référence produit doit être un nombre."
+        },
     )
     brand = forms.CharField(
         label="Marque du fabricant",
@@ -30,6 +33,12 @@ class ClaimForm(forms.ModelForm):
         ),
         required=False,
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        code = cleaned_data.get("code")
+        if code == "":
+            cleaned_data["code"] = 0
 
     class Meta:
         model = Claim
