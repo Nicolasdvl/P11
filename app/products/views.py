@@ -70,6 +70,7 @@ def my_substitutes(request):
 
 @login_required
 def claim(request):
+    search_form = SearchForm()
     if request.method == "POST":
         claim_form = ClaimForm(request.POST)
         if claim_form.is_valid():
@@ -79,6 +80,5 @@ def claim(request):
             return redirect("index")
     else:
         claim_form = ClaimForm()
-    search_form = SearchForm()
     context = {"ClaimForm": claim_form, "SearchForm": search_form}
     return render(request, "products/claim.html", context)
