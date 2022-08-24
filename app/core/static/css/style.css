@@ -33,7 +33,8 @@
 .signin-form,
 .claim-form,
 .redirect-substitutes,
-.redirect-signin {
+.redirect-signin,
+.redirect-claims {
     display: inline-block;
     width: 100%;
     margin: 10px;

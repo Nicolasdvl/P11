@@ -30,6 +30,13 @@
             <p>Vous êtes déconnecté. Cliquez <a href="login">ici</a> pour vous connecter.</p>
             {% endif %}
         </div>
+        <div class="container">
+            {% if user.is_superuser %}
+            <button onclick="location.href='/admin/products/claim/'" class="redirect-claims">
+                Demandes d'ajout <span class="badge badge-light">{{claim_notification}}</span>
+            </button>
+            {% endif %}
+        </div>
     </section>
 </body>
 {% include 'core/footer.html' %}
