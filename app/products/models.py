@@ -84,16 +84,18 @@ class Claim(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    date = models.DateField(auto_now_add=True)
-    name = models.CharField(max_length=200)
-    code = models.BigIntegerField()
-    brand = models.CharField(max_length=200)
-    user_comment = models.TextField(max_length=600)
-    admin_comment = models.TextField(max_length=600)
+    date = models.DateField("date", auto_now_add=True)
+    name = models.CharField("nom du produit", max_length=200)
+    code = models.BigIntegerField("référence du produit")
+    brand = models.CharField("marque du produit", max_length=200)
+    user_comment = models.TextField("commentaire", max_length=600)
+    admin_comment = models.TextField("réponse", max_length=600, blank=True)
     status = models.CharField(
-        max_length=20, choices=STATUS, default="Traitement en cours"
+        "status de la demande",
+        max_length=20,
+        choices=STATUS,
+        default="Traitement en cours",
     )
-    deal = models.BooleanField(default=False)
     user = models.ManyToManyField(User)
 
     def __str__(self):
