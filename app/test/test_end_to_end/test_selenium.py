@@ -62,20 +62,20 @@ class TestSelenium(StaticLiveServerTestCase):
         """Test user path."""
         self.driver.get(f"{self.live_server_url}/")
         self.assertEqual(self.driver.current_url, f"{self.live_server_url}/")
-        self.driver.find_element_by_name("login").click()
-        email_input = self.driver.find_element_by_name("email")
+        self.driver.find_element("name", "login").click()
+        email_input = self.driver.find_element("name", "email")
         email_input.send_keys("john@email.com")
-        password_input = self.driver.find_element_by_name("password")
+        password_input = self.driver.find_element("name", "password")
         password_input.send_keys("mdp")
-        self.driver.find_element_by_name("submit_logs").click()
+        self.driver.find_element("name", "submit_logs").click()
         # Test if current url is home page
         self.assertEqual(self.driver.current_url, f"{self.live_server_url}/")
-        self.driver.find_element_by_name("my_account")
-        self.driver.find_element_by_name("logout").click()
+        self.driver.find_element("name", "my_account")
+        self.driver.find_element("name", "logout").click()
         # Test if current url is home page
         self.assertEqual(self.driver.current_url, f"{self.live_server_url}/")
         try:
-            self.driver.find_element_by_name("my_account")
+            self.driver.find_element("name", "my_account")
         except NoSuchElementException:
             pass
         else:
@@ -83,17 +83,17 @@ class TestSelenium(StaticLiveServerTestCase):
 
     def test_create_account(self):
         self.driver.get(f"{self.live_server_url}/")
-        self.driver.find_element_by_name("signup").click()
+        self.driver.find_element("name", "signup").click()
         # Give already existing username and email
-        email_input = self.driver.find_element_by_name("username")
+        email_input = self.driver.find_element("name", "username")
         email_input.send_keys("john")
-        password_input = self.driver.find_element_by_name("email")
+        password_input = self.driver.find_element("name", "email")
         password_input.send_keys("john@email.com")
-        password_input = self.driver.find_element_by_name("password")
+        password_input = self.driver.find_element("name", "password")
         password_input.send_keys("mdp")
-        password_input = self.driver.find_element_by_name("confirme")
+        password_input = self.driver.find_element("name", "confirme")
         password_input.send_keys("mdp")
-        self.driver.find_element_by_name("submit_new_user").click()
+        self.driver.find_element("name", "submit_new_user").click()
         # Test if current url is signup page
         self.assertEqual(
             self.driver.current_url, f"{self.live_server_url}/signup"
@@ -103,36 +103,37 @@ class TestSelenium(StaticLiveServerTestCase):
         # Test if email error was genarated
         # self.driver.find_element_by_id("error_1_id_email")
         # Give new user info
-        email_input = self.driver.find_element_by_name("username")
+        email_input = self.driver.find_element("name", "username")
         email_input.send_keys("john83")
-        password_input = self.driver.find_element_by_name("email")
+        password_input = self.driver.find_element("name", "email")
         password_input.send_keys("john83@email.com")
-        password_input = self.driver.find_element_by_name("password")
+        password_input = self.driver.find_element("name", "password")
         password_input.send_keys("mdp")
-        password_input = self.driver.find_element_by_name("confirme")
+        password_input = self.driver.find_element("name", "confirme")
         password_input.send_keys("mdp")
-        self.driver.find_element_by_name("submit_new_user").click()
+        self.driver.find_element("name", "submit_new_user").click()
 
     def test_add_substitutes(self):
         self.driver.get(f"{self.live_server_url}/")
-        self.driver.find_element_by_name("login").click()
+        self.driver.find_element("name", "login").click()
         # Login with user who doesn't have substitutes saved
-        email_input = self.driver.find_element_by_name("email")
+        email_input = self.driver.find_element("name", "email")
         email_input.send_keys("jack@email.com")
-        password_input = self.driver.find_element_by_name("password")
+        password_input = self.driver.find_element("name", "password")
         password_input.send_keys("azert")
-        self.driver.find_element_by_name("submit_logs").click()
+        self.driver.find_element("name", "submit_logs").click()
         # Search for a product, here 'coca'
-        self.driver.find_element_by_name("search_input").send_keys("coca")
+        self.driver.find_element("name", "search_input").send_keys("coca")
         # Click on first element in auto-complete list
-        self.driver.find_element_by_xpath(
-            "//div[@id='search_inputautocomplete-list']/div[1]"
+        self.driver.find_element(
+            "xpath", "//div[@id='search_inputautocomplete-list']/div[1]"
         ).click()
-        self.driver.find_element_by_id("submit_search").click()
+        self.driver.find_element("id", "submit_search").click()
         # Save the first substitute found
-        self.driver.find_element_by_xpath(
-            "//div[@class='product_container'][1]//button[@name='submit_save']"
+        self.driver.find_element(
+            "xpath",
+            "//div[@class='product_container'][1]//button[@name='submit_save']",
         ).click()
         # Check if previous save is at user saves page, here pepsi max.
-        self.driver.find_element_by_name("my_substitutes").click()
+        self.driver.find_element("name", "my_substitutes").click()
         self.assertTrue("pepsi max" in self.driver.page_source)
