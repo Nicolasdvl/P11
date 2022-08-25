@@ -59,7 +59,7 @@ def similar(request):
     return render(request, "products/similar.html", context)
 
 
-@login_required
+@login_required(login_url="/login", redirect_field_name=None)
 def my_substitutes(request):
     """Return a html page with a list of products saved by user."""
     user = request.user
@@ -68,7 +68,7 @@ def my_substitutes(request):
     return render(request, "products/saves.html", context)
 
 
-@login_required
+@login_required(login_url="/login", redirect_field_name=None)
 def claim(request):
     search_form = SearchForm()
     if request.method == "POST":

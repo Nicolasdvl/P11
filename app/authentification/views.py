@@ -54,7 +54,7 @@ def logout_user(request):
     return redirect("index")
 
 
-@login_required
+@login_required(login_url="/login", redirect_field_name=None)
 def user_page(request):
     """Render user.html."""
     search_form = SearchForm()
