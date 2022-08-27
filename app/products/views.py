@@ -45,6 +45,7 @@ def details(request, id):
 
 def similar(request):
     """Return a 'product not found' page or products similar to user input."""
+    search_form = SearchForm()
     search_input = request.POST.get("search_input")
     try:
         products = Product.objects.filter(name__icontains=search_input)
@@ -53,6 +54,7 @@ def similar(request):
         context = {
             "similar_products": products,
             "product_search": search_input,
+            "SearchForm": search_form,
         }
     except ObjectDoesNotExist:
         context = {"product_search": search_input}
