@@ -15,7 +15,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Claim",
             fields=[
-                ("id", models.BigIntegerField(primary_key=True, serialize=False)),
+                (
+                    "id",
+                    models.BigIntegerField(primary_key=True, serialize=False),
+                ),
                 ("date", models.DateField(auto_now_add=True)),
                 ("name", models.CharField(max_length=200)),
                 ("code", models.BigIntegerField()),

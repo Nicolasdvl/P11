@@ -17,12 +17,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="claim",
             name="admin_comment",
-            field=models.TextField(blank=True, max_length=600, verbose_name="réponse"),
+            field=models.TextField(
+                blank=True, max_length=600, verbose_name="réponse"
+            ),
         ),
         migrations.AlterField(
             model_name="claim",
             name="brand",
-            field=models.CharField(max_length=200, verbose_name="marque du produit"),
+            field=models.CharField(
+                max_length=200, verbose_name="marque du produit"
+            ),
         ),
         migrations.AlterField(
             model_name="claim",
@@ -37,7 +41,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="claim",
             name="name",
-            field=models.CharField(max_length=200, verbose_name="nom du produit"),
+            field=models.CharField(
+                max_length=200, verbose_name="nom du produit"
+            ),
         ),
         migrations.AlterField(
             model_name="claim",

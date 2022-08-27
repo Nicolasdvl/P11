@@ -1,4 +1,3 @@
-from urllib import response
 from django.test import Client, TestCase, override_settings
 from products.models import Product
 from authentification.models import User
