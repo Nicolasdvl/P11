@@ -63,8 +63,14 @@ class TestAuthenticateUrls(TestCase):
         self.assertRedirects(response, "/")
 
     def test_user(self):
-        """Test '/user' status."""
-        response = self.client.get("/account")
-        self.assertEqual(response.status_code, 200)
-        # Test GET status with auth user
-        # Test GET status with unauth user
+        """
+        Test '/account' status.
+
+        1/ GET response with auth user should be 200
+        2/ GET response with unauth user should redirect on login page.
+        """
+        response_unauth = self.client.get("/account")
+        self.client.post("/login", self.valid_login_inputs)
+        response_auth = self.client.get("/account")
+        self.assertEqual(response_auth.status_code, 200)
+        self.assertRedirects(response_unauth, "/login")

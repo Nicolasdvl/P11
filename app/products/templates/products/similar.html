@@ -31,6 +31,14 @@
         {% else %}
         <p>Nous n'avons pas trouvé de produit correspondant à {{product_search}}</p>
         {% endif %}
+
+        {% if user.is_authenticated %}
+        <p>Vous ne trouvez pas votre produit ? <a href="{% url 'claim' %}">Proposez l'ajout d'un produit
+                manquant.</a></p>
+        {% else %}
+        <p>Vous ne trouvez pas votre produit ? <a href="{% url 'login' %}">Connectez-vous</a> ou <a
+                href="{% url 'signup' %}">créez un compte</a> pour proposer l'ajout d'un produit.</p>
+        {% endif %}
     </section>
 </body>
 {% include 'core/footer.html' %}

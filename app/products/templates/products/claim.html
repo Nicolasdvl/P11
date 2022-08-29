@@ -1,3 +1,5 @@
+<!doctype html>
+
 <html lang="fr">
 {% load static %}
 
@@ -13,29 +15,19 @@
 
 </head>
 
-
 <body>
     {% include 'core/nav.html' %}
-    <section class="page-section" id="user_account">
-        <div class="container">
-            {% if user.is_authenticated %}
-            <p> Bienvenue {{user.username}}</p>
 
-            <p>
-                E-mail : {{user.email}}
-            </p>
-            <button onclick="location.href='/account/my_substitutes'" class="redirect-substitutes"> Voir mes substituts
-                sauvegardés</button>
-            {% else %}
-            <p>Vous êtes déconnecté. Cliquez <a href="login">ici</a> pour vous connecter.</p>
-            {% endif %}
-        </div>
+    <section class="page-section" id="claim">
         <div class="container">
-            {% if user.is_superuser %}
-            <button onclick="location.href='/admin/products/claim/'" class="redirect-claims">
-                Demandes d'ajout <span class="badge badge-light">{{claim_notification}}</span>
-            </button>
-            {% endif %}
+            <form action="/claim/" method="post" id="claim_form">
+                <div>
+                    {% csrf_token %}
+                    {{ ClaimForm }}
+                    <input type="submit" name="submit_claim" id="submit" value="Soumettre la demande"
+                        class="claim-form">
+                </div>
+            </form>
         </div>
     </section>
 </body>
@@ -43,7 +35,7 @@
 <script>
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 </script>
-<script src="{% static 'js/autocomplete.js' %}"></script>
 <script src="{% static 'js/boot_script.js' %}"></script>
+<script src="{% static 'js/autocomplete.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>

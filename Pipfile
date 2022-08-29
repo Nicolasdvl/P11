@@ -24,6 +24,8 @@ celery = "==5.1.2"
 redis = "==3.5.3"
 newrelic = "*"
 sentry-sdk = "*"
+coverage = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.9"

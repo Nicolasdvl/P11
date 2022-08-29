@@ -1,4 +1,3 @@
-from itertools import product
 from unittest.mock import MagicMock, patch
 from django.test import TestCase
 from off.off_parser import Parser

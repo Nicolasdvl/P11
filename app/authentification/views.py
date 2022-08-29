@@ -8,8 +8,10 @@ or a 404 error, or an XML document, or an image . . .
 from django.shortcuts import render, redirect
 from authentification.forms.signup import SignupForm
 from authentification.forms.login import LoginForm
+from products.models import Claim
 from search.search import SearchForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def signup(request):
@@ -52,8 +54,14 @@ def logout_user(request):
     return redirect("index")
 
 
+@login_required(login_url="/login", redirect_field_name=None)
 def user_page(request):
     """Render user.html."""
     search_form = SearchForm()
     context = {"SearchForm": search_form}
+    # Notify untreated claims if user is admin
+    if request.user.is_superuser:
+        untreated = Claim.objects.filter(status="Traitement en cours")
+        if untreated.count() != 0:
+            context["claim_notification"] = untreated.count()
     return render(request, "authentification/user.html", context)

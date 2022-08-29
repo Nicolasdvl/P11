@@ -31,8 +31,10 @@
 
 .login-form,
 .signin-form,
+.claim-form,
 .redirect-substitutes,
-.redirect-signin {
+.redirect-signin,
+.redirect-claims {
     display: inline-block;
     width: 100%;
     margin: 10px;
@@ -82,6 +84,7 @@
 
 section#login,
 section#signup,
+section#claim,
 section#user_account,
 section#details,
 section#saves {

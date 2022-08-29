@@ -6,18 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0002_auto_20210321_0448'),
+        ("products", "0002_auto_20210321_0448"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='name',
+            model_name="category",
+            name="name",
             field=models.CharField(max_length=200, unique=True),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='nutriscore',
-            field=models.CharField(choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'), ('E', 'E'), ('null', 'unknow')], default='null', max_length=4),
+            model_name="product",
+            name="nutriscore",
+            field=models.CharField(
+                choices=[
+                    ("A", "A"),
+                    ("B", "B"),
+                    ("C", "C"),
+                    ("D", "D"),
+                    ("E", "E"),
+                    ("null", "unknow"),
+                ],
+                default="null",
+                max_length=4,
+            ),
         ),
     ]

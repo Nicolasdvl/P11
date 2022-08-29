@@ -7,26 +7,39 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=200)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=200)),
             ],
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=200)),
-                ('brand', models.CharField(max_length=200)),
-                ('nutriscore', models.CharField(choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'), ('E', 'E'), ('N', 'unknow')], default='NA', max_length=1)),
-                ('image', models.CharField(max_length=200)),
-                ('categories', models.ManyToManyField(to='products.Category')),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=200)),
+                ("brand", models.CharField(max_length=200)),
+                (
+                    "nutriscore",
+                    models.CharField(
+                        choices=[
+                            ("A", "A"),
+                            ("B", "B"),
+                            ("C", "C"),
+                            ("D", "D"),
+                            ("E", "E"),
+                            ("N", "unknow"),
+                        ],
+                        default="NA",
+                        max_length=1,
+                    ),
+                ),
+                ("image", models.CharField(max_length=200)),
+                ("categories", models.ManyToManyField(to="products.Category")),
             ],
         ),
     ]

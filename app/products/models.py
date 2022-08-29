@@ -72,3 +72,32 @@ class Product(models.Model):
     def sort_by_this(self, element):
         """Use as key to sort elements in a list by the first value."""
         return element[0]
+
+
+class Claim(models.Model):
+    """Model for table Claim."""
+
+    STATUS = [
+        ("Accepté", "Accepté"),
+        ("Traitement en cours", "Traitement en cours"),
+        ("Refusé", "Refusé"),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    date = models.DateField("date", auto_now_add=True)
+    name = models.CharField("nom du produit", max_length=200)
+    code = models.BigIntegerField("référence du produit")
+    brand = models.CharField("marque du produit", max_length=200)
+    user_comment = models.TextField("commentaire", max_length=600)
+    admin_comment = models.TextField("réponse", max_length=600, blank=True)
+    status = models.CharField(
+        "status de la demande",
+        max_length=20,
+        choices=STATUS,
+        default="Traitement en cours",
+    )
+    user = models.ManyToManyField(User)
+
+    def __str__(self):
+        """Allow objects display."""
+        return self.name

@@ -5,12 +5,13 @@ Python functions that takes a Web request and returns a Web response.
 This response can be the HTML contents of a Web page, or a redirect,
 or a 404 error, or an XML document, or an image . . .
 """
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from authentification.models import User
 from products.models import Product
 from search.search import SearchForm
+from products.forms.claims import ClaimForm
 
 # Create your views here.
 
@@ -44,6 +45,7 @@ def details(request, id):
 
 def similar(request):
     """Return a 'product not found' page or products similar to user input."""
+    search_form = SearchForm()
     search_input = request.POST.get("search_input")
     try:
         products = Product.objects.filter(name__icontains=search_input)
@@ -52,16 +54,33 @@ def similar(request):
         context = {
             "similar_products": products,
             "product_search": search_input,
+            "SearchForm": search_form,
         }
     except ObjectDoesNotExist:
         context = {"product_search": search_input}
     return render(request, "products/similar.html", context)
 
 
-@login_required
+@login_required(login_url="/login", redirect_field_name=None)
 def my_substitutes(request):
     """Return a html page with a list of products saved by user."""
     user = request.user
     search_form = SearchForm()
     context = {"products": user.get_saves(), "SearchForm": search_form}
     return render(request, "products/saves.html", context)
+
+
+@login_required(login_url="/login", redirect_field_name=None)
+def claim(request):
+    search_form = SearchForm()
+    if request.method == "POST":
+        claim_form = ClaimForm(request.POST)
+        if claim_form.is_valid():
+            user = request.user
+            new_claim = claim_form.save()
+            new_claim.user.add(user)
+            return redirect("index")
+    else:
+        claim_form = ClaimForm()
+    context = {"ClaimForm": claim_form, "SearchForm": search_form}
+    return render(request, "products/claim.html", context)
